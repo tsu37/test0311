@@ -77,9 +77,10 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
   
-    # ユーザーのステータスフィードを返す
+  # ユーザーのステータスフィードを返す
   def feed
-    Micropost.where("user_id IN (?) OR user_id = ?", following_ids, id)
+    Micropost.where("user_id IN (:following_ids) OR user_id = :user_id",
+     following_ids: following_ids, user_id: id)
   end
 
   # ユーザーをフォローする
